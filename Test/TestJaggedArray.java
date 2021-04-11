@@ -3,6 +3,7 @@ import org.junit.Before;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.fail;
 
 
 public class TestJaggedArray {
@@ -84,6 +85,13 @@ public class TestJaggedArray {
         assertEquals('b', values[1]);
         assertEquals('c', values[2]);
         assertEquals('d', values[3]);
+
+        int[] offsets = jagged.getOffsets();
+        assertEquals(0, offsets[0]);
+        assertEquals(1, offsets[1]);
+        assertEquals(1, offsets[2]);
+        assertEquals(4, offsets[3]);
+        assertEquals(4, offsets[4]);
     }
 
     @Test
@@ -97,10 +105,39 @@ public class TestJaggedArray {
         jagged.unpack();
 
         assertEquals(null, jagged.getPackedValues());
+        assertEquals(null, jagged.getOffsets());
         assertEquals('a', jagged.getElement(0, 0));
         assertEquals('b', jagged.getElement(2, 0));
         assertEquals('c', jagged.getElement(2, 1));
         assertEquals('d', jagged.getElement(2, 2));
+    }
+
+    @Test
+    public void testInvalid() {
+        try {
+            jagged.addElement(10, 'z');
+            fail();
+        } catch (Exception e) {
+            // expected
+            assertEquals(IndexOutOfBoundsException.class, e.getClass());
+        }
+
+        jagged.addElement(0, 'a');
+        jagged.addElement(2, 'b');
+        jagged.addElement(2, 'c');
+        jagged.addElement(2, 'd');
+        try {
+            jagged.removeElement(2, 4);
+            fail();
+        } catch (Exception e) {
+            // expected
+            assertEquals(IndexOutOfBoundsException.class, e.getClass());
+        }
+
+        assertTrue(jagged.pack());
+        assertFalse(jagged.pack());
+        assertTrue(jagged.unpack());
+        assertFalse(jagged.unpack());
     }
 
 }

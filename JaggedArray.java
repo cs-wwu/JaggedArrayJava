@@ -36,6 +36,9 @@ public class JaggedArray<T> {
         return values;
     }
 
+    /**
+     * Return the number of elements in the jagged array
+     */
     public int size() {
         return numberOfElements;
     }
@@ -66,7 +69,10 @@ public class JaggedArray<T> {
         }
     }
 
-    public T getElement(int bin, int slot) {
+    /**
+     * Return the element at the given bin and slot number
+     */
+    public T getElement(int bin, int slot) throws IndexOutOfBoundsException {
         if (unpackedValues != null) {
             return unpackedValues[bin].get(slot);
         } else {
@@ -74,6 +80,9 @@ public class JaggedArray<T> {
         }
     }
 
+    /**
+     * Add an element into the bin at the end
+     */
     public boolean addElement(int bin, T element) throws IndexOutOfBoundsException {
         if (unpackedValues == null) {
             return false;
@@ -88,6 +97,9 @@ public class JaggedArray<T> {
         return true;
     }
 
+    /**
+     * Remove an element at the given bin and slot number
+     */
     public boolean removeElement(int bin, int slot) throws IndexOutOfBoundsException {
         if (unpackedValues == null) {
             return false;
@@ -102,18 +114,32 @@ public class JaggedArray<T> {
         return true;
     }
 
+    /**
+     * Return the unpacked array of linked lists
+     */
     public LinkedList<T>[] getUnpackedValues() {
         return unpackedValues;
     }
 
+    /**
+     * Return the packed values.
+     */
     public T[] getPackedValues() {
         return packedValues;
     }
 
+    /**
+     * Return the offsets array
+     */
     public int[] getOffsets() {
         return offsets;
     }
 
+    /**
+     * Unpack the representation from packed.
+     *
+     * @return True if successful, or false if already unpacked
+     */
     public boolean unpack() {
         if (unpackedValues != null) {
             return false;
@@ -133,6 +159,11 @@ public class JaggedArray<T> {
         return true;
     }
 
+    /**
+     * Pack the values
+     *
+     * @return True if successful, or false if already packed
+     */
     public boolean pack() {
         if (unpackedValues == null) {
             return false;
@@ -158,6 +189,9 @@ public class JaggedArray<T> {
         return true;
     }
 
+    /**
+     * A helpful method to print out a jagged array. Useful for debugging.
+     */
     public void print() {
         System.out.println("JaggedArray(Number of Bins=" + numberOfBins());
         for (int i = 0; i < numberOfBins(); i++) {
