@@ -64,7 +64,8 @@ public class JaggedArray<T> {
             if (bin < numberOfBins() - 1) {
                 return offsets[bin + 1] - offsets[bin];
             } else {
-                return offsets.length - offsets[bin] - 1;
+                // return offsets.length - offsets[bin] - 1;
+                return numberOfElements - offsets[bin] - 1;
             }
         }
     }
